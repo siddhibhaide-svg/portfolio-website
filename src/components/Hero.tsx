@@ -1,7 +1,6 @@
-import { ArrowDown, ArrowRight, Download } from 'lucide-react';
+import { ArrowDown, ArrowRight } from 'lucide-react';
 import TypingText from '@/components/TypingText';
 import ProfileCard from '@/components/ProfileCard';
-import { SITE } from '@/lib/site';
 
 const INTRO_TEXT = 'AI/ML Student & Web Developer';
 
@@ -41,14 +40,6 @@ export default function Hero() {
             >
               Explore My Work
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
-            </a>
-            <a
-              href={SITE.resumePath}
-              download
-              className="group inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm font-medium text-ink transition-all duration-300 hover:border-brand hover:text-brand hover:glow-brand"
-            >
-              <Download className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" aria-hidden />
-              Download Resume
             </a>
           </div>
         </div>

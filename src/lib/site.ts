@@ -5,7 +5,6 @@ export const SITE = {
   github: 'https://github.com/siddhibhaide-svg',
   linkedin:
     'https://www.linkedin.com/in/siddhi-bhaide-716432376?utm_source=share_via&utm_content=profile&utm_medium=member_android',
-  resumePath: '/resume.pdf',
 };
 
 export const NAV_LINKS = [
