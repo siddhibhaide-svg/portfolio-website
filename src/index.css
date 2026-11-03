@@ -19,7 +19,7 @@
   --surface: 20 20 22;
   --line: 42 42 48;
   --ink: 242 242 244;
-  --muted: 163 163 173;
+  --muted: 184 188 200;
   --brand: 0 168 232;
   --rose: 255 0 127;
 }
@@ -31,6 +31,8 @@
 
   body {
     @apply bg-canvas text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.7;
   }
 
   ::selection {

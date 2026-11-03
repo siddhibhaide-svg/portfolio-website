@@ -1,14 +1,15 @@
 import { Brain, Globe, Zap, type LucideIcon } from 'lucide-react';
 import Reveal from '@/components/Reveal';
+import Section from '@/components/Section';
 import SectionHeading from '@/components/SectionHeading';
 
-interface Highlight {
+interface Trait {
   icon: LucideIcon;
   title: string;
   text: string;
 }
 
-const HIGHLIGHTS: Highlight[] = [
+const TRAITS: Trait[] = [
   {
     icon: Brain,
     title: 'Problem solver',
@@ -28,43 +29,29 @@ const HIGHLIGHTS: Highlight[] = [
 
 export default function About() {
   return (
-    <section id="about" className="scroll-mt-20 py-24 sm:py-32">
-      <div className="mx-auto grid max-w-6xl gap-16 px-5 sm:px-8 lg:grid-cols-2 lg:items-start">
-        <Reveal>
-          <SectionHeading
-            eyebrow="01 / About"
-            title="Curious by nature, methodical in practice"
-            description="I am a computer science student who enjoys turning complex problems into simple, elegant solutions."
-          />
-          <div className="mt-6 space-y-5 leading-relaxed text-muted">
-            <p>
-              I am a second-year B.Tech student in Computer Science and Engineering (AI &amp; ML) at
-              Bharati Vidyapeeth (Deemed to be University), building a strong foundation in data
-              structures, object-oriented programming, and machine learning.
-            </p>
-            <p>
-              What drives me is the web. I care about the details that make a website feel right:
-              clear structure, smooth interactions, and code that the next person can understand.
-            </p>
-          </div>
-        </Reveal>
+    <Section id="about">
+      <Reveal>
+        <SectionHeading
+          eyebrow="About Me"
+          title="Curious by nature,"
+          accent="methodical in practice."
+          description="I turn complex problems into simple, elegant solutions, and I keep learning along the way."
+        />
+      </Reveal>
 
-        <div className="grid gap-5">
-          {HIGHLIGHTS.map((item, index) => (
-            <Reveal key={item.title} delay={index * 120}>
-              <article className="group flex gap-5 rounded-2xl border border-line bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand hover:glow-brand">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-brand/40 text-brand transition-transform duration-300 group-hover:scale-110">
-                  <item.icon className="h-6 w-6" aria-hidden />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-ink">{item.title}</h3>
-                  <p className="mt-2 leading-relaxed text-muted">{item.text}</p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+      <div className="mt-16 grid gap-6 md:grid-cols-3">
+        {TRAITS.map((trait, index) => (
+          <Reveal key={trait.title} delay={index * 120} className="h-full">
+            <article className="group h-full rounded-2xl border border-line bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand hover:glow-brand">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-brand/40 text-brand transition-transform duration-300 group-hover:scale-110">
+                <trait.icon className="h-7 w-7" aria-hidden />
+              </div>
+              <h3 className="mt-6 text-xl font-semibold text-ink">{trait.title}</h3>
+              <p className="mt-3 text-muted">{trait.text}</p>
+            </article>
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

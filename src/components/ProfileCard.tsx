@@ -23,7 +23,7 @@ const FOCUS_AREAS: FocusArea[] = [
 
 const METRICS = [
   { value: '2nd', label: 'Year' },
-  { value: '6', label: 'Core skills' },
+  { value: '9.2', label: 'CGPA' },
   { value: 'AI/ML', label: 'Branch' },
 ];
 
@@ -39,7 +39,7 @@ export default function ProfileCard() {
         </div>
         <div>
           <p className="text-lg font-semibold text-ink">Siddhi</p>
-          <p className="text-sm text-muted">B.Tech CSE (AI &amp; ML), Second Year</p>
+          <p className="text-sm text-muted">B.Tech in Artificial Intelligence &amp; Machine Learning</p>
         </div>
       </div>
 

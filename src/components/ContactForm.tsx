@@ -1,14 +1,12 @@
-import { AlertCircle, CheckCircle2, Loader2, Send } from 'lucide-react';
+import { AlertCircle, Send } from 'lucide-react';
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { supabase } from '@/lib/supabase';
+import { SITE } from '@/lib/site';
 
 interface FormValues {
   name: string;
   email: string;
   message: string;
 }
-
-type SubmitStatus = 'idle' | 'sending' | 'success' | 'error';
 
 const EMPTY_VALUES: FormValues = { name: '', email: '', message: '' };
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,7 +29,6 @@ function validate(values: FormValues): string | null {
 
 export default function ContactForm() {
   const [values, setValues] = useState<FormValues>(EMPTY_VALUES);
-  const [status, setStatus] = useState<SubmitStatus>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -39,51 +36,23 @@ export default function ContactForm() {
     setValues((current) => ({ ...current, [name]: value }));
   };
 
-  const fail = (message: string) => {
-    setStatus('error');
-    setErrorMessage(message);
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const problem = validate(values);
-    if (problem) {
-      fail(problem);
-      return;
-    }
+    setErrorMessage(problem);
+    if (problem) return;
 
-    if (!supabase) {
-      fail('The contact form is unavailable right now. Please try again later.');
-      return;
-    }
+    const name = values.name.trim();
+    const email = values.email.trim();
+    const subject = `Portfolio message from ${name}`;
+    const body = `${values.message.trim()}\n\nFrom: ${name} (${email})`;
 
-    setStatus('sending');
-    setErrorMessage(null);
-
-    const { error } = await supabase.from('contact_messages').insert({
-      name: values.name.trim(),
-      email: values.email.trim(),
-      message: values.message.trim(),
-    });
-
-    if (error) {
-      fail('Something went wrong while sending your message. Please try again.');
-      return;
-    }
-
-    setValues(EMPTY_VALUES);
-    setStatus('success');
+    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
-  const isSending = status === 'sending';
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      noValidate
-      className="space-y-5 rounded-2xl border border-line bg-surface p-6 sm:p-8"
-    >
+    <form onSubmit={handleSubmit} noValidate className="space-y-5 rounded-2xl border border-line bg-surface p-6 sm:p-8">
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block space-y-2">
           <span className="text-sm font-medium text-ink">Name</span>
@@ -123,43 +92,26 @@ export default function ContactForm() {
         />
       </label>
 
-      {status === 'success' && (
-        <div
-          role="status"
-          className="animate-fade-up flex items-start gap-3 rounded-xl border border-brand/50 bg-canvas px-4 py-3 text-sm text-ink"
-        >
-          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden />
-          Thanks for reaching out. Your message has been sent and I will get back to you soon.
-        </div>
-      )}
-
-      {status === 'error' && errorMessage && (
+      {errorMessage && (
         <div
           role="alert"
-          className="animate-fade-up flex items-start gap-3 rounded-xl border border-rose/50 bg-canvas px-4 py-3 text-sm text-ink"
+          className="flex items-start gap-3 rounded-xl border border-rose/50 bg-canvas px-4 py-3 text-sm text-ink"
         >
           <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-rose" aria-hidden />
           {errorMessage}
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={isSending}
-        className="btn-gradient group flex w-full items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:glow-rose disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-none"
-      >
-        {isSending ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            Sending...
-          </>
-        ) : (
-          <>
-            Send message
-            <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
-          </>
-        )}
-      </button>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-muted">Your email app opens with this message ready to send.</p>
+        <button
+          type="submit"
+          className="btn-gradient group inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:glow-rose"
+        >
+          Open Mail Draft
+          <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
+        </button>
+      </div>
     </form>
   );
 }

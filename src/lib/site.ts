@@ -1,30 +1,19 @@
-export interface NavLink {
-  label: string;
-  href: string;
-}
-
-export interface SocialLink {
-  key: 'linkedin' | 'github' | 'email';
-  label: string;
-  href: string;
-}
-
 export const SITE = {
   name: 'Siddhi',
-  socials: [
-    {
-      key: 'linkedin',
-      label: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/siddhi-bhaide-716432376?utm_source=share_via&utm_content=profile&utm_medium=member_android',
-    },
-    { key: 'github', label: 'GitHub', href: 'https://github.com/siddhibhaide-svg' },
-    { key: 'email', label: 'Email', href: 'mailto:siddhibhaide@gmail.com' },
-  ] satisfies SocialLink[],
+  fullName: 'Siddhi Bhaide',
+  email: 'siddhibhaide@gmail.com',
+  github: 'https://github.com/siddhibhaide-svg',
+  linkedin:
+    'https://www.linkedin.com/in/siddhi-bhaide-716432376?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+  resumePath: '/resume.pdf',
 };
 
-export const NAV_LINKS: NavLink[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Education', href: '#education' },
-  { label: 'Contact', href: '#contact' },
-];
+export const NAV_LINKS = [
+  { label: 'About', id: 'about' },
+  { label: 'Projects', id: 'projects' },
+  { label: 'Skills', id: 'skills' },
+  { label: 'Education', id: 'education' },
+  { label: 'Contact', id: 'contact' },
+] as const;
+
+export type SectionId = (typeof NAV_LINKS)[number]['id'];
